@@ -203,7 +203,6 @@ print(centroids)
 print(labels)
 print(df2)
 
-# Visualizing the clusters in 2D and 3D
 colors = ['red', 'green', 'blue', 'purple', 'black', 'pink', 'orange']
 visualizeKMeans2D(X, y_kmeans, cluster, "Clusters of Customers - Annual Income X Spending Score", "Annual Income", "Spending Score", colors)
 visualize3DKmeans(df2, columns, df2.columns, cluster)
@@ -211,5 +210,36 @@ visualize3DKmeans(df2, columns, df2.columns, cluster)
 hover_data = df2.columns
 visualize3DKmeans(df2, columns, hover_data, cluster)
 
+def print_customer_details_to_console(df, cluster_column_name='cluster'):
+    for cluster in sorted(df[cluster_column_name].unique()):
+        print(f"Cluster {cluster}:")
+        customer_ids = df[df[cluster_column_name] == cluster]['CustomerID']
+        for customer_id in customer_ids:
+            customer_details = get_customer_details(customer_id)
+            print(customer_details)
+
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/cluster/<int:cluster_id>')
+def show_customers(cluster_id):
+    customer_ids = df2[df2['cluster'] == cluster_id]['CustomerID'].tolist()
+    customer_details = [get_customer_details(cid) for cid in customer_ids]
+    return render_template('cluster_customers.html', customers=customer_details, cluster_id=cluster_id)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+def get_customer_details(customer_id):
+    query = "SELECT * FROM Customer WHERE CustomerID = %s"
+    cursor = mysql_connection.cursor()
+    cursor.execute(query, (customer_id,))
+    customer_details = cursor.fetchall()
+    cursor.close()
+    return customer_details
+
+df2['cluster'] = KMeans(n_clusters=5).fit_predict(X)
+print_customer_details_to_console(df2)
 
 
