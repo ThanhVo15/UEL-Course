@@ -7,9 +7,7 @@ import seaborn as sns
 import plotly.express as px
 from sklearn.cluster import KMeans
 
-app = Flask(__name__)
 mysql = MySQL()
-
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
