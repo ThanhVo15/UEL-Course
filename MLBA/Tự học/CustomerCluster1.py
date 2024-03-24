@@ -91,20 +91,6 @@ columns = ['Age', 'Spending Score']
 elbowMethod(df2, columns)
 
 def runKMeans(X, n_clusters):
-    model = KMeans(n_clusters=n_clusters,
-                   init='k-means++',
-                   max_iter=500,
-                   random_state=42)
-    model.fit(X)
-
-    labels = model.labels_
-    centroids = model.cluster_centers_
-    y_kmeans = model.fit_predict(X)
-
-    return y_kmeans, centroids, labels
-
-
-def runKMeans(X, n_clusters):
     model = KMeans(n_clusters=n_clusters, init='k-means++', max_iter=500, random_state=42)
     model.fit(X)
     labels = model.labels_
