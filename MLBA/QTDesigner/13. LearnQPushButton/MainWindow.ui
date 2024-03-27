@@ -157,7 +157,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>image/caculate.png</normaloff>image/caculate.png</iconset>
+         <normaloff>C:/Users/thanh/.designer/backup/image/caculate.png</normaloff>C:/Users/thanh/.designer/backup/image/caculate.png</iconset>
        </property>
       </widget>
      </item>
@@ -174,7 +174,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>image/close.webp</normaloff>image/close.webp</iconset>
+         <normaloff>C:/Users/thanh/.designer/backup/image/close.webp</normaloff>C:/Users/thanh/.designer/backup/image/close.webp</iconset>
        </property>
       </widget>
      </item>
