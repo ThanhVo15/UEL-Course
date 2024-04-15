@@ -25,7 +25,7 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="1">
-      <widget class="QComboBox" name="comboBox"/>
+      <widget class="QComboBox" name="comboBoxChooseTable"/>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="labelChooseDatabase">
@@ -42,7 +42,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="lineEditChoosDatabase"/>
      </item>
      <item row="0" column="2">
       <widget class="QPushButton" name="pushButtonPickSQLite">
