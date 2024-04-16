@@ -9,7 +9,7 @@ class MainWindowEx(Ui_MainWindow):
         super().setupUi(MainWindow)
         self.MainWindow=MainWindow
         self.pushButtonPickSQLite.clicked.connect(self.processPickSQLite)
-        self.comboBox.activated.connect(self.processSelectedTable)
+        self.comboBoxChooseTable.activated.connect(self.processSelectedTable)
         self.pushFetchMore.clicked.connect(self.processFetchMore)
 
     def processPickSQLite(self):
@@ -20,7 +20,7 @@ class MainWindowEx(Ui_MainWindow):
             filter=filters,
         )
         # get selected file name and showing on the QLineEdit
-        self.lineEdit.setText(filename)
+        self.lineEditChoosDatabase.setText(filename)
         # create base dir
         baseDir = os.path.dirname(__file__)
         # set the database path
@@ -33,15 +33,15 @@ class MainWindowEx(Ui_MainWindow):
         self.db.open()
         # get all tables in the selected SQLite
         tables = self.db.tables()
-        self.comboBox.clear()
+        self.comboBoxChooseTable.clear()
         # show all the table names into the QCombobox:
         for i in range(len(tables)):
             tableName = tables[i]
-            self.comboBox.addItem(tableName)
+            self.comboBoxChooseTable.addItem(tableName)
 
     def processSelectedTable(self):
         # Get the current Table Name in QCombobox
-        tableName = self.comboBox.currentText()
+        tableName = self.comboBoxChooseTable.currentText()
         # Create QSqlTableModel object, and self.db is assigned
         self.model = QSqlTableModel(db=self.db)
         # select table name to invoke data
