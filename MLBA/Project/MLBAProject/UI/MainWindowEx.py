@@ -1,10 +1,12 @@
 import random
 from random import random
 import plotly.graph_objects as go
+import pandas as pd
 
 from PyQt6 import QtGui, QtCore
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QAction, QIcon, QPixmap
+from PyQt6.QtWidgets import QMainWindow, QDialog, QComboBox, QPushButton, QListWidgetItem, QMessageBox, QTableWidgetItem
 from PyQt6.QtWidgets import QMessageBox, QTableWidgetItem, QMainWindow, QDialog, QComboBox, QPushButton, QCheckBox, \
     QListWidgetItem
 from matplotlib import pyplot as plt
@@ -59,6 +61,7 @@ class MainWindowEx(Ui_MainWindow):
         self.pushButtonPurchaseFrequenceByAge.clicked.connect(self.showShowPurchaseFrequenceByAge)
         self.pushButtonSalesFluctuationsByMonth.clicked.connect(self.showpushButtonSalesFluctuationsByMonth)
         self.pushButtonFullScreen.clicked.connect(self.showFullScreen)
+        self.pushButtonTrainModel.clicked.connect(self.train_model)
         self.checkEnableWidget(False)
 
         self.comboBoxDataset.activated.connect(self.processSelectedComboBox)
@@ -336,6 +339,8 @@ class MainWindowEx(Ui_MainWindow):
         pass
     def loadDataForMachineLearningTab(self,tableName):
         self.purchaseLinearRegression.connector = self.databaseConnectEx.connector
+        self.df = self.purchaseLinearRegression.execPurchaseHistory(tableName)
+        self.purchaseLinearRegression.connector = self.databaseConnectEx.connector
         df=self.purchaseLinearRegression.execPurchaseHistory(tableName)
         self.listWidgetIndependentVariables.clear()
         self.listWidgetDependentVariables.clear()
@@ -349,41 +354,46 @@ class MainWindowEx(Ui_MainWindow):
             itemDependent.setCheckState(Qt.CheckState.Unchecked)
             self.listWidgetDependentVariables.addItem(itemDependent)
 
-    def getSelectedColumns(self):
-        inputs = []
-        target = None
-        for index in range(self.listWidgetIndependentVariables.count()):
-            item = self.listWidgetIndependentVariables.item(index)
+    def get_selected_columns(list_widget):
+        selected_columns = []
+
+        for i in range(list_widget.count()):
+            item = list_widget.item(i)
             if item.checkState() == Qt.CheckState.Checked:
-                inputs.append(item.text())
+                selected_columns.append(item.text())
 
-        for index in range(self.listWidgetDependentVariables.count()):
-            item = self.listWidgetDependentVariables.item(index)
-            if item.checkState() == Qt.CheckState.Checked:
-                target = item.text()
-                break  # Giả sử chỉ chọn một target
+        return selected_columns
 
-        return inputs, target
+    def train_model(list_widget_inputs, list_widget_targets, line_edit_test_size, line_edit_random_state):
+        selected_inputs = get_selected_columns(list_widget_inputs)
+        selected_targets = get_selected_columns(list_widget_targets)
 
-    def trainModel(self):
-        inputs, target = self.getSelectedColumns()
-        if not inputs or not target:
-            QMessageBox.warning(self.MainWindow, "Warning", "Please select both inputs and target columns.")
+        if not selected_inputs or not selected_targets:
+            QMessageBox.warning(None, "Warning", "Please select at least one input and one target column.")
             return
 
-        try:
-            model = PurchaseLinearRegression()
-            model.df = self.df  # Cập nhật DataFrame
-            success = model.train(inputs, target)
+        input_text = ", ".join(selected_inputs)
+        target_text = ", ".join(selected_targets) if selected_targets else "None"
 
-            if success:
-                # Đánh giá mô hình
-                evaluation_results = model.evaluate()
-                results_text = f"Training successful! RMSE: {evaluation_results['RMSE']:.2f}, R²: {evaluation_results['R2']:.2f}"
-                self.lineEditResult.setText(results_text)
-            else:
-                self.lineEditResult.setText("Training failed!")
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Icon.Information)
+        msgBox.setText("Are you sure you want to train the model with the following columns?")
+        msgBox.setInformativeText("Inputs: {}\nTargets: {}".format(input_text, target_text))
+        msgBox.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+        returnValue = msgBox.exec()
 
-        except Exception as e:
-            QMessageBox.critical(self.MainWindow, "Error", f"Training failed: {str(e)}")
-            self.lineEditResult.setText("Training failed!")
+        if returnValue == QMessageBox.StandardButton.Ok:
+            training_service = PurchaseLinearRegression(databaseConnectEx.connector)
+
+            test_size = float(line_edit_test_size.text()) / 100
+            random_state = int(line_edit_random_state.text())
+
+            training_service.process_train(columns_input=selected_inputs, column_target=selected_targets,
+                                           test_size=test_size, random_state=random_state)
+            result = training_service.evaluate()
+            # setup_machine_learning_ui(selected_inputs, selected_targets)
+            lineEditMAE.setText(str(round(result.MAE, 2)))
+            lineEditMSE.setText(str(round(result.MSE, 2)))
+            lineEditRMSE.setText(str(round(result.RMSE, 2)))
+            lineEditR2SCORE.setText(str(round(result.R2_SCORE, 2)))
+
