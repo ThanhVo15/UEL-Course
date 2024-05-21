@@ -120,11 +120,11 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QPlainTextEdit" name="plainTextEditWriteyourQuerry"/>
+        <widget class="QLineEdit" name="lineEditquery"/>
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="pushButtonFetchMore">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1026,6 +1026,7 @@
      <string>Systems</string>
     </property>
     <addaction name="actionConnect_to_Database"/>
+    <addaction name="actionExport_CSV"/>
    </widget>
    <addaction name="menuSystems"/>
   </widget>
@@ -1033,6 +1034,16 @@
   <action name="actionConnect_to_Database">
    <property name="text">
     <string>Connect to Database</string>
+   </property>
+  </action>
+  <action name="actionImport_CSV">
+   <property name="text">
+    <string>Import CSV</string>
+   </property>
+  </action>
+  <action name="actionExport_CSV">
+   <property name="text">
+    <string>Export CSV</string>
    </property>
   </action>
  </widget>

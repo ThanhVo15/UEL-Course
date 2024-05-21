@@ -38,9 +38,9 @@ class Connector:
             if not df.empty:
                 df.columns = cursor.column_names
             return df
-        except:
+        except mysql.connector.Error as err:
             traceback.print_exc()
-        return None
+            raise err  # Ném lỗi ra ngoài để có thể bắt và xử lý bên ngoài
 
     def getTablesName(self):
         try:
