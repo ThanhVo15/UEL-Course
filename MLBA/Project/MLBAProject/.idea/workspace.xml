@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="42173ccf-3854-424f-847a-4dc1d9b2212e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MLBAProject/.idea/MLBAProject.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../QTDesigner/30. LearnModelViewPart5/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../QTDesigner/30. LearnModelViewPart5/.idea/30. LearnModelViewPart5.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../QTDesigner/30. LearnModelViewPart5/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../QTDesigner/30. LearnModelViewPart5/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../QTDesigner/30. LearnModelViewPart5/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../QTDesigner/30. LearnModelViewPart5/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/1. Preprocessing the CSV/0. Overview +Preprocessing + CSV to SQLite.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/.idea/4. App.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_ML.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_Menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_about.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_connect.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_connection.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_dash board.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_database.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_exit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_fullscreen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_instruction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_load.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_save.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_shutdown.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_cate_gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_cate_value.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_category.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_frequence_age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_payment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_sales_monthly.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_sales_yearly_monthly.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_shopping_mall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_statistic_spending_gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/ic_system.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/0. Icon/icon_setting.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/ConnectionsScreen/Connectors.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/FullScreen/FullScreenChart.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/FullScreen/FullScreenChart.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/CreateAccount.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/CreateAccount.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/CreateAccountEx.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/LoginScreen.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/LoginScreen.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/LoginScreenEx.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/StarterMenu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/StarterMenu.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/LoginScreen/StarterMenuEx.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/DatabaseConnections.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/DatabaseConnections.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/DatabaseConnectionsEx.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindow.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindow.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindowEx.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Utils/App.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/LR_mymodel.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/lecturer_retails_purchasehistory.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Connectors/Connector.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_about.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_connect.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_connection.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_fullscreen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_instruction.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_load.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_logo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_save.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_shutdown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_age.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_cate_gender.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_cate_value.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_category.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_frequence_age.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_gender.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_payment.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_sales_monthly.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_sales_yearly_monthly.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_shopping_mall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_statistic_spending_gender.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/ic_system.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/MetricsResult.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PurchaseKMeans.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PurchaseLinearRegression.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PurchaseMLModel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PurchaseStatistic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/TrainedModel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/App.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/AppLinearRegression.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/AppModel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/AppPurchaseKMeans.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/AppStatistic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/TestLoadModel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/ChartHandle.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/DatabaseConnect.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/DatabaseConnect.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/DatabaseConnectEx.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/FullScreenChart.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/FullScreenChart.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/FullScreenChartEx.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/MainWindow.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/MainWindow.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/MainWindowEx.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/FileUtil.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lecturer_retails/lecturer_retails_employee.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lecturer_retails/lecturer_retails_purchasehistory.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Coding/0. Overview +Preprocessing + CSV to SQLite.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/201904 sales reciepts.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/201904 sales reciepts.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/Dates.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/Dates.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/customer.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/customer.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/generations.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/generations.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/pastry inventory.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/pastry inventory.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/product.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/product.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/sales targets.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/sales targets.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/sales_outlet.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/sales_outlet.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Origin Data/staff.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Origin Data/staff.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/customer.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/customer.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/dates.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/dates.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/generations.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/generations.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/pastry_inventory.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/pastry_inventory.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/product.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/product.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/sales.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/sales.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/sales_outlet.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/sales_outlet.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/sales_targets.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/sales_targets.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/Preprocessing CSV File/staff.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/Preprocessing CSV File/staff.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/customer.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/customer.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/dates.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/dates.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/generations.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/generations.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/pastry_inventory.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/pastry_inventory.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/product.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/product.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/sales_outlet.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/sales_outlet.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/sales_targets.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/sales_targets.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../final_project/Data/sql_file/staff.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/0. Data/sql_file/staff.sql" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2ghQfemHN8AUQ0x12cxctcGdxav" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GitHub/UEL-Course/MLBA/Project/MLBAProject&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Python.App">
+    <configuration name="App" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MLBAProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MLBAProject" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MLBAProject/App.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="MainWindowEx" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MLBAProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MLBAProject/UI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MLBAProject/UI/MainWindowEx.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.App" />
+        <item itemvalue="Python.MainWindowEx" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="42173ccf-3854-424f-847a-4dc1d9b2212e" name="Changes" comment="" />
+      <created>1716147433622</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1716147433622</updated>
+    </task>
+    <servers />
+  </component>
+</project>
