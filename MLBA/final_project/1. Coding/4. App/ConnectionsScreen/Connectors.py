@@ -1,14 +1,16 @@
-#python -m pip install mysql-connector-python
 import mysql.connector
 import traceback
 import pandas as pd
+
 class Connector:
-    def __init__(self,server=None, port=None, database=None, username=None, password=None):
-        self.server=server
-        self.port=port
-        self.database=database
-        self.username=username
-        self.password=password
+    def __init__(self, server=None, port=None, database=None, username=None, password=None):
+        self.server = server
+        self.port = port
+        self.database = database
+        self.username = username
+        self.password = password
+        self.conn = None
+
     def connect(self):
         try:
             self.conn = mysql.connector.connect(
@@ -17,14 +19,15 @@ class Connector:
                 database=self.database,
                 user=self.username,
                 password=self.password)
-            return self.conn
-        except:
-            self.conn=None
+            return True
+        except mysql.connector.Error as err:
+            self.conn = None
             traceback.print_exc()
-        return None
+            print(f"Error: {err}")
+            return False
 
-    def disConnect(self):
-        if self.conn != None:
+    def disconnect(self):
+        if self.conn:
             self.conn.close()
 
     def queryDataset(self, sql):
@@ -33,16 +36,19 @@ class Connector:
             cursor.execute(sql)
             df = pd.DataFrame(cursor.fetchall())
             if not df.empty:
-                df.columns=cursor.column_names
+                df.columns = cursor.column_names
             return df
         except:
             traceback.print_exc()
         return None
+
     def getTablesName(self):
-        cursor = self.conn.cursor()
-        cursor.execute("Show tables;")
-        results=cursor.fetchall()
-        tablesName=[]
-        for item in results:
-            tablesName.append([tableName for tableName in item][0])
-        return tablesName
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute("SHOW TABLES;")
+            results = cursor.fetchall()
+            tablesName = [item[0] for item in results]
+            return tablesName
+        except:
+            traceback.print_exc()
+        return None

@@ -41,7 +41,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTableView" name="tableView"/>
+        <widget class="QTableView" name="tableViewShow"/>
        </item>
       </layout>
      </widget>
@@ -66,7 +66,7 @@
         <widget class="QLineEdit" name="lineEdit"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pushButtonConnectDatabase">
          <property name="text">
           <string>Connect Database</string>
          </property>
@@ -92,7 +92,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox"/>
+        <widget class="QComboBox" name="comboBoxChooseTable"/>
        </item>
       </layout>
      </widget>
@@ -120,7 +120,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QPlainTextEdit" name="plainTextEdit"/>
+        <widget class="QPlainTextEdit" name="plainTextEditWriteyourQuerry"/>
        </item>
       </layout>
      </widget>
@@ -137,6 +137,19 @@
        <string>Fetch More</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButtonExecuteQuerry">
+      <property name="geometry">
+       <rect>
+        <x>750</x>
+        <y>120</y>
+        <width>121</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Execute Querry</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="visualize">
      <attribute name="title">
@@ -148,19 +161,19 @@
         <x>0</x>
         <y>10</y>
         <width>941</width>
-        <height>600</height>
+        <height>626</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="24" column="3">
-        <widget class="QCheckBox" name="checkBox_2">
+        <widget class="QCheckBox" name="checkBoxLegend">
          <property name="text">
-          <string>CheckBox</string>
+          <string>Legend</string>
          </property>
         </widget>
        </item>
        <item row="11" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_13">
+        <widget class="QPushButton" name="pushButtonTinhTrangLangPhiSP">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -173,7 +186,7 @@
         </widget>
        </item>
        <item row="6" column="0" colspan="2">
-        <widget class="QLabel" name="label_6">
+        <widget class="QLabel" name="labelPhanTichKhachHang">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -199,7 +212,7 @@
         </widget>
        </item>
        <item row="3" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="pushButtonDoanhSoTheoLoaiSanPham">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -212,7 +225,7 @@
         </widget>
        </item>
        <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="labelTongDoanhSoBanHang">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -266,15 +279,15 @@
        <item row="24" column="4">
         <widget class="QPushButton" name="pushButton_7">
          <property name="text">
-          <string>PushButton</string>
+          <string>Chart Background</string>
          </property>
         </widget>
        </item>
        <item row="17" column="1">
-        <widget class="QComboBox" name="comboBox_2"/>
+        <widget class="QComboBox" name="comboBoxTable1"/>
        </item>
        <item row="7" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_16">
+        <widget class="QPushButton" name="pushButtonPhanBoKhachHangTheoSexvaGender">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -287,7 +300,7 @@
         </widget>
        </item>
        <item row="10" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_12">
+        <widget class="QPushButton" name="pushButtonSLSanphamTonKho">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -300,12 +313,12 @@
         </widget>
        </item>
        <item row="18" column="1">
-        <widget class="QComboBox" name="comboBox_3"/>
+        <widget class="QComboBox" name="comboBoxColumn1"/>
        </item>
        <item row="24" column="2">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="checkBoxBackgroundGrid">
          <property name="text">
-          <string>CheckBox</string>
+          <string>Background Grid</string>
          </property>
         </widget>
        </item>
@@ -362,20 +375,20 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="pushButtonDoanhSoTheoThoiGian">
          <property name="text">
           <string>Doanh số theo thời gian</string>
          </property>
         </widget>
        </item>
        <item row="20" column="1">
-        <widget class="QComboBox" name="comboBox_5"/>
+        <widget class="QComboBox" name="comboBoxColumn2"/>
        </item>
        <item row="19" column="1">
-        <widget class="QComboBox" name="comboBox_4"/>
+        <widget class="QComboBox" name="comboBoxTable2"/>
        </item>
        <item row="8" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_10">
+        <widget class="QPushButton" name="pushButtonPhanBoKhachHang">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -388,7 +401,7 @@
         </widget>
        </item>
        <item row="2" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="pushButtonDoanhSoTheoCuaHang">
          <property name="text">
           <string>Doanh số theo cửa hàng</string>
          </property>
@@ -397,15 +410,19 @@
        <item row="24" column="5">
         <widget class="QPushButton" name="pushButton_8">
          <property name="text">
-          <string>PushButton</string>
+          <string>Bar Color</string>
          </property>
         </widget>
        </item>
        <item row="0" column="2" rowspan="23" colspan="4">
-        <layout class="QVBoxLayout" name="verticalLayout_3"/>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QTableView" name="tableViewVisualize"/>
+         </item>
+        </layout>
        </item>
        <item row="4" column="0" colspan="2">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="labelHieuSuatBanHang">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -418,7 +435,7 @@
         </widget>
        </item>
        <item row="15" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_15">
+        <widget class="QPushButton" name="pushButtonDoanhSoTheoTungSanPham">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -444,7 +461,7 @@
         </widget>
        </item>
        <item row="13" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_14">
+        <widget class="QPushButton" name="pushButtonDoanhSoTheoNhanVien">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -457,7 +474,7 @@
         </widget>
        </item>
        <item row="5" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_11">
+        <widget class="QPushButton" name="pushButtonDoanhSoTheoKhachHang">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -482,6 +499,22 @@
          </property>
         </widget>
        </item>
+       <item row="21" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Chart Type:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="21" column="1">
+        <widget class="QComboBox" name="comboBoxChartType"/>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -489,6 +522,390 @@
      <attribute name="title">
       <string>ML</string>
      </attribute>
+     <widget class="QWidget" name="horizontalLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>450</y>
+        <width>781</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayoutSelectDataset_3">
+       <item>
+        <widget class="QLabel" name="labelModelPath_2">
+         <property name="text">
+          <string>Model Path:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditModelPath_2"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonLoadModel_2">
+         <property name="text">
+          <string>6. Load Model</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="groupBoxCoefficient">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>150</y>
+        <width>271</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Coefficient</string>
+      </property>
+      <widget class="QTableView" name="tableViewCoefficient_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>251</width>
+         <height>141</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QWidget" name="gridLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>170</y>
+         <width>251</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <item row="2" column="0">
+         <widget class="QLabel" name="labelRMSE_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>RMSE:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="labelMAE_2">
+          <property name="text">
+           <string>MAE:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="labelMSE_2">
+          <property name="text">
+           <string>MSE:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QLineEdit" name="lineEditRMSE_2"/>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QLineEdit" name="lineEditMSE_2"/>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QLineEdit" name="lineEditMAE_2"/>
+        </item>
+        <item row="3" column="1" colspan="2">
+         <widget class="QPushButton" name="pushButtonSaveModel_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>5. Save Model</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBoxInput">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>490</y>
+        <width>501</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Input:</string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>471</width>
+         <height>91</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QLabel" name="labelAvgAreaIncome_2">
+          <property name="text">
+           <string>Avg. Area Income:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QLineEdit" name="lineEditAvgAreaHouseAge_2"/>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QLineEdit" name="lineEditAvgAreaIncome_2"/>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="labelAreaPopulation_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Area Population:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="labelAvgAreaNumberofBedroom_2">
+          <property name="text">
+           <string>Avg. Area Number of Bedroom:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QLineEdit" name="lineEditAreaPopulation_2"/>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLineEdit" name="lineEditAvgAreaNumberofBedroom_2"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="labelAvgAreaHouseAge_2">
+          <property name="text">
+           <string>Avg. Area House Age:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" rowspan="2">
+         <widget class="QLabel" name="labelAvgAreaNumberofRoom_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Avg. Area Number of Room:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" rowspan="2" colspan="2">
+         <widget class="QLineEdit" name="lineEditAvgAreaNumberofRoom_2"/>
+        </item>
+        <item row="2" column="3" rowspan="2" colspan="2">
+         <widget class="QPushButton" name="pushButtonPrediction_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>7. Prediction Housing Price</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBoxOutput">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>490</y>
+        <width>271</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Output:</string>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>251</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="labelPredictionPrice_2">
+          <property name="text">
+           <string>Prediction Price:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditPredictionPrice_2"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>69</y>
+        <width>781</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayoutSelectDataset_4">
+       <item>
+        <widget class="QLabel" name="labelSeclectDataset_2">
+         <property name="text">
+          <string>Select Dataset:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditSelectDataset_2"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonPickDataset_2">
+         <property name="text">
+          <string>1. Pick Dataset</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonViewDataset_2">
+         <property name="text">
+          <string>2. View Dataset</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_7">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>110</y>
+        <width>157</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="labelTrainingRate_2">
+         <property name="text">
+          <string>Training Rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditTrainingRate_2"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>%</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="pushButtonExit">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>580</y>
+        <width>256</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>8. Exit</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTitle">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>10</y>
+        <width>481</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; color:#55aaff;&quot;&gt;House Pricing Prediction App&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tableViewDataset">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>150</y>
+        <width>501</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_8">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>110</y>
+        <width>381</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QPushButton" name="pushButtonTrainingModel_2">
+         <property name="text">
+          <string>3. Training Model</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonEvaluateModel_2">
+         <property name="text">
+          <string>4. Evaluate Model</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditResultNotidication_2"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabSetting">
      <attribute name="title">

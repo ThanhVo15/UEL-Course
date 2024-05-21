@@ -1,39 +1,39 @@
-from PyQt6.QtWidgets import QMainWindow, QStackedWidget
-from LoginScreen.StarterMenuEx import StarterMenuEx
-from LoginScreen.CreateAccountEx import CreateAccountEx
-from LoginScreen.LoginScreenEx import LoginScreenEx
+from PyQt6.QtWidgets import QApplication, QMainWindow
 from .MainWindow import Ui_MainWindow
+from Test.DatabaseConnectionsEx import DatabaseConnectEx
 
-class MainWindowEx(QMainWindow, Ui_MainWindow):
+class MainWindowEx(QMainWindow, Ui_MainWindow):  # Kế thừa từ QMainWindow và Ui_MainWindow
     def __init__(self):
-        super().__init__()
+        super(MainWindowEx, self).__init__()
         self.setupUi(self)
-
-        self.stacked_widget = QStackedWidget()
-        self.setCentralWidget(self.stacked_widget)
-
-        self.starter_menu = StarterMenuEx(self.stacked_widget)
-        self.create_account = CreateAccountEx(self.stacked_widget)
-        self.login_screen = LoginScreenEx(self.stacked_widget)
-        self.MainWindow = MainWindow(self.stacked_widget)
-
-        self.stacked_widget.addWidget(self.starter_menu)  # Index 0
-        self.stacked_widget.addWidget(self.create_account)  # Index 1
-        self.stacked_widget.addWidget(self.login_screen)  # Index 2
-
-        self.stacked_widget.addWidget(self)  # Index 3
-
-        self.stacked_widget.setCurrentIndex(0)  # Show Starter Menu initially
-
-        self.adjust_size_to_current_widget()
-
-        self.stacked_widget.currentChanged.connect(self.adjust_size_to_current_widget)
+        self.databaseConnectEx = DatabaseConnectEx(self)
 
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
         self.MainWindow = MainWindow
+
+        self.pushButtonConnectDatabase.clicked.connect(self.openDatabaseConnectUI)
+        self.actionConnect_to_Database.triggered.connect(self.openDatabaseConnectUI)
+
+        self.comboBoxChooseTable.currentIndexChanged.connect(self.tableSelectionChanged)
+
+    def openDatabaseConnectUI(self):
+        dbwindow = QMainWindow()
+        self.databaseConnectEx.setupUi(dbwindow)
+        self.databaseConnectEx.show()
+
+    def updateLineEdit(self, database_name):
+        self.lineEdit.setText(f"SQL_Workbench/{database_name}")
+
+    def updateComboBox(self, tables):  # Thay đổi highlight
+        self.comboBoxChooseTable.clear()
+        self.comboBoxChooseTable.addItems(tables)
+        self.comboBoxChooseTable.setCurrentIndex(0)  # Chọn bảng đầu tiên sau khi cập nhật
+
+    def tableSelectionChanged(self):  # Thay đổi highlight
+        selected_table = self.comboBoxChooseTable.currentText()
+        if selected_table:
+            self.databaseConnectEx.showTableData(selected_table)
+
     def show(self):
         self.MainWindow.show()
-    def adjust_size_to_current_widget(self):
-        current_widget = self.stacked_widget.currentWidget()
-        self.setFixedSize(current_widget.sizeHint())
