@@ -1,5 +1,5 @@
 CREATE TABLE customer(
-   customer_id         INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT
+   customer_id         INTEGER  NOT NULL PRIMARY KEY
   ,home_store          INTEGER  NOT NULL
   ,customer_first_name VARCHAR(20) NOT NULL
   ,customer_email      VARCHAR(25) NOT NULL
@@ -2255,3 +2255,17 @@ INSERT INTO customer(customer_id,home_store,customer_first_name,customer_email,c
 INSERT INTO customer(customer_id,home_store,customer_first_name,customer_email,customer_since,loyalty_card_number,birthdate,gender,birth_year) VALUES (8499,8,'Clementine','Dieter@ac.us','2017-11-09','297-550-7776','1996-06-04','F',1996);
 INSERT INTO customer(customer_id,home_store,customer_first_name,customer_email,customer_since,loyalty_card_number,birthdate,gender,birth_year) VALUES (8500,8,'Linda','Dillon@pretium.gov','2017-08-21','255-202-7435','1990-03-01','N',1990);
 INSERT INTO customer(customer_id,home_store,customer_first_name,customer_email,customer_since,loyalty_card_number,birthdate,gender,birth_year) VALUES (8501,8,'Moana','Herrod@ultrices.gov','2018-07-06','241-906-4009','1966-08-27','F',1966);
+
+-- Change column name from "home_store" to "sales_outlet_id"
+ALTER TABLE customer RENAME COLUMN home_store TO sales_outlet_id;
+
+-- Add a foreign key constraint for the sales_outlet_id column
+ALTER TABLE customer ADD CONSTRAINT fk_sales_outlet_id FOREIGN KEY (sales_outlet_id) REFERENCES sales_outlet(sales_outlet_id);
+
+ALTER TABLE customer ADD CONSTRAINT fk_birth_year FOREIGN KEY (birth_year) references generations(birth_year);
+
+INSERT INTO customer (customer_id, sales_outlet_id , customer_first_name, customer_email, customer_since, loyalty_card_number, birthdate, gender, birth_year)
+VALUES 
+    (0, 3, 'Unknown', 'Unknown', '2017-01-04','908-424-2890','1950-05-29','M',1950),
+    (5000, 3, 'Unknown', 'Unknown', '2017-01-04','908-424-2890','1950-05-29','M',1950),
+    (8000, 3, 'Unknown', 'Unknown', '2017-01-04','908-424-2890','1950-05-29','M',1950);

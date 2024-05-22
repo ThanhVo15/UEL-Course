@@ -314,3 +314,7 @@ INSERT INTO pastry_inventory(sales_outlet_id,transaction_date,product_id,start_o
 INSERT INTO pastry_inventory(sales_outlet_id,transaction_date,product_id,start_of_day,quantity_sold,waste,percent_waste) VALUES (8,'2019-04-27',71,18,2,16,89);
 INSERT INTO pastry_inventory(sales_outlet_id,transaction_date,product_id,start_of_day,quantity_sold,waste,percent_waste) VALUES (8,'2019-04-27',72,48,19,29,60);
 INSERT INTO pastry_inventory(sales_outlet_id,transaction_date,product_id,start_of_day,quantity_sold,waste,percent_waste) VALUES (8,'2019-04-27',73,18,4,14,78);
+
+ALTER TABLE pastry_inventory ADD constraint fk_sales_outlet_id_pastry foreign key (sales_outlet_id) references sales_outlet(sales_outlet_id);
+ALTER TABLE pastry_inventory add constraint fk_pastry_transaction_date foreign key (transaction_date) references dates(transaction_date);
+alter table pastry_inventory add constraint fk_pastry_product_id foreign key (product_id) references product(product_id);

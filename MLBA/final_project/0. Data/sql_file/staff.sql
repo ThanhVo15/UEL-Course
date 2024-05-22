@@ -61,3 +61,12 @@ INSERT INTO staffs(staff_id,first_name,last_name,position,start_date,location) V
 INSERT INTO staffs(staff_id,first_name,last_name,position,start_date,location) VALUES (53,'Sawyer','Kasper','Coffee Wrangler','2007-11-11','FL');
 INSERT INTO staffs(staff_id,first_name,last_name,position,start_date,location) VALUES (54,'Ezekiel','Griffin','Coffee Wrangler','2005-09-13','FL');
 INSERT INTO staffs(staff_id,first_name,last_name,position,start_date,location) VALUES (55,'Coby','Shelly','Coffee Wrangler','2015-11-17','FL');
+ALTER TABLE staffs
+ADD user_name VARCHAR(25);
+UPDATE staffs SET user_name = CONCAT(first_name, last_name, location);
+
+
+ALTER TABLE staffs
+ADD password_acc VARCHAR(25);
+UPDATE staffs
+SET password_acc = '@Obama123';

@@ -39,3 +39,6 @@ INSERT INTO dates(transaction_date,Date_ID,Week_ID,Week_Desc,Month_ID,Month_Name
 INSERT INTO dates(transaction_date,Date_ID,Week_ID,Week_Desc,Month_ID,Month_Name,Quarter_ID,Quarter_Name,Year_ID) VALUES ('2019-04-28','20190428',17,'Week 17',4,'April',2,'Q2',2019);
 INSERT INTO dates(transaction_date,Date_ID,Week_ID,Week_Desc,Month_ID,Month_Name,Quarter_ID,Quarter_Name,Year_ID) VALUES ('2019-04-29','20190429',18,'Week 18',4,'April',2,'Q2',2019);
 INSERT INTO dates(transaction_date,Date_ID,Week_ID,Week_Desc,Month_ID,Month_Name,Quarter_ID,Quarter_Name,Year_ID) VALUES ('2019-04-30','20190430',18,'Week 18',4,'April',2,'Q2',2019);
+
+ALTER TABLE dates DROP COLUMN Date_ID;
+CREATE INDEX idx_year_id ON dates (Year_ID);

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabShow">
      <attribute name="title">
@@ -788,7 +788,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEditSelectDataset_2"/>
+        <widget class="QLineEdit" name="lineEditSelectDataset_2">
+         <property name="text">
+          <string>chỗ này ghi querry =&gt; generate ra table tại tableview =&gt; pick các biến rồi train xogn save</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButtonPickDataset_2">
@@ -957,7 +961,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label_18">
           <property name="text">
-           <string>DOB</string>
+           <string>Starts Day</string>
           </property>
          </widget>
         </item>
