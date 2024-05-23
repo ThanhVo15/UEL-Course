@@ -42,3 +42,8 @@ INSERT INTO dates(transaction_date,Date_ID,Week_ID,Week_Desc,Month_ID,Month_Name
 
 ALTER TABLE dates DROP COLUMN Date_ID;
 CREATE INDEX idx_year_id ON dates (Year_ID);
+ALTER TABLE dates
+ADD COLUMN Dates_ID INT;
+
+UPDATE dates
+SET Dates_ID = DAY(transaction_date);

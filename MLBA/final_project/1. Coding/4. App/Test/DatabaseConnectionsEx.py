@@ -16,7 +16,6 @@ class DatabaseConnectEx(QMainWindow, Ui_MainWindow):
         self.mainWindow = MainWindow
         self.pushButtonConnect.clicked.connect(self.processConnectDatabase)
         self.pushButtonExit.clicked.connect(self.processExit)
-
     def processConnectDatabase(self):
         try:
             self.connector = Connector()

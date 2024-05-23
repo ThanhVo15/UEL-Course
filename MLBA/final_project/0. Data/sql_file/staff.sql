@@ -70,3 +70,18 @@ ALTER TABLE staffs
 ADD password_acc VARCHAR(25);
 UPDATE staffs
 SET password_acc = '@Obama123';
+
+ALTER TABLE staffs
+ADD email VARCHAR(100);
+SET SQL_SAFE_UPDATES = 0;
+-- Your update query
+UPDATE staffs
+SET email = CONCAT(user_name, '@bms.com');
+
+
+ALTER TABLE staffs
+ADD phone VARCHAR(50);
+SET SQL_SAFE_UPDATES = 0;
+-- Your update query
+UPDATE staffs
+SET phone = REPLACE(start_date, '-', '');

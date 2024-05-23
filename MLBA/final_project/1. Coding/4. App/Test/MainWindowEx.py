@@ -1,13 +1,14 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QMenu, QFileDialog, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QMenu, QFileDialog, QLineEdit, QPushButton, QTabWidget
 from PyQt6.QtGui import QIcon, QColor
 from PyQt6 import QtCore
-from PyQt6.QtCore import QModelIndex, Qt, QAbstractTableModel
+from PyQt6.QtCore import QModelIndex, Qt, QAbstractTableModel, pyqtSlot
 from Test.MainWindow import Ui_MainWindow
 from Test.DatabaseConnectionsEx import DatabaseConnectEx
 from functools import partial
 from enum import Enum
 import mysql.connector
 import csv
+from ConnectionsScreen.Connectors import Connector
 
 class InsertBehavior(Enum):
     INSERT_FIRST = 0
@@ -20,7 +21,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         super(MainWindowEx, self).__init__()
         self.setupUi(self)
         self.databaseConnectEx = DatabaseConnectEx(self)
-
+        self.connector = Connector()
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
         self.MainWindow = MainWindow
@@ -37,6 +38,25 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         self.tableViewShow.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.tableViewShow.customContextMenuRequested.connect(self.onCustomContextMenuRequested)
 
+        self.tabWidget.currentChanged.connect(self.onTabChanged)
+
+    def onTabChanged(self, index):
+        if self.tabWidget.tabText(index) == "tabsales":
+            self.updateMRR()
+
+    def updateMRR(self):
+        query = "SELECT SUM(line_item_amount) AS total_sales FROM sales;"
+        try:
+            df = self.databaseConnectEx.connector.queryDataset(query)
+            if df is not None and not df.empty:
+                total_sales = df['total_sales'].iloc[0]
+                self.labelMRR.setText(f"{total_sales}")
+            else:
+                self.labelMRR.setText("0")
+        except mysql.connector.Error as err:
+            self.showErrorDialog("Query Error", f"Invalid query syntax or execution error:\n{str(err)}")
+        except Exception as e:
+            self.showErrorDialog("Query Error", str(e))
 
     def openDatabaseConnectUI(self):
         dbwindow = QMainWindow()
