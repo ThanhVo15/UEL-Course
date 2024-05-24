@@ -1,0 +1,28 @@
+gender,product_category,purchase_count
+M,"Coffee beans",449
+N,"Coffee beans",41
+F,"Coffee beans",97
+M,"Loose Tea",294
+N,"Loose Tea",41
+F,"Loose Tea",66
+M,"Packaged Chocolate",106
+F,"Packaged Chocolate",28
+N,"Packaged Chocolate",17
+F,Coffee,4338
+M,Coffee,13062
+N,Coffee,2275
+M,Tea,9862
+F,Tea,3450
+N,Tea,1823
+M,"Drinking Chocolate",2526
+F,"Drinking Chocolate",884
+N,"Drinking Chocolate",426
+M,Flavours,1699
+F,Flavours,334
+N,Flavours,215
+M,Bakery,5080
+F,Bakery,1616
+N,Bakery,920
+M,Branded,186
+F,Branded,38
+N,Branded,21

@@ -11,6 +11,7 @@ import csv
 from ConnectionsScreen.Connectors import Connector
 import pyqtgraph as pg
 import pandas as pd
+import numpy as np
 
 class TableModel(QAbstractTableModel):
     def __init__(self, data, columns):
@@ -305,9 +306,10 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
 
         # verticalLayoutSalesGrowthRateByPartOfTheDays
         df_verticalLayoutSalesGrowthRateByPartOfTheDays = self.databaseConnectEx.connector.queryDataset("""
-            SELECT s.transaction_date, t.part_of_day, SUM(s.line_item_amount) AS total_line_item_amount
+            SELECT d.Dates_ID, t.part_of_day, SUM(s.line_item_amount) AS total_line_item_amount
             FROM sales s
             JOIN transaction_times t ON t.transaction_time = s.transaction_time
+            JOIN dates d ON d.transaction_date = s.transaction_date
             GROUP BY s.transaction_date, t.part_of_day
             ORDER BY s.transaction_date,
             FIELD(t.part_of_day, 'Morning', 'Afternoon', 'Evening', 'Night', 'Late Night');
@@ -326,7 +328,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             ORDER BY d.Dates_ID;
         """)
         if not df_verticalLayoutDrinkHereOrGo.empty:
-            self.verticalLayoutDrinkHereOrGo(df_verticalLayoutDrinkHereOrGo)
+            self.chartverticalLayoutDrinkHereOrGo(df_verticalLayoutDrinkHereOrGo)
 
         # verticalLayoutSalesGrowthRatebyWeek
         df_verticalLayoutSalesGrowthRatebyWeek = self.databaseConnectEx.connector.queryDataset("""
@@ -346,7 +348,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             ORDER BY week;
         """)
         if not df_verticalLayoutSalesGrowthRatebyWeek.empty:
-            self.verticalLayoutSalesGrowthRatebyWeek(df_verticalLayoutSalesGrowthRatebyWeek)
+            self.chartverticalLayoutSalesGrowthRatebyWeek(df_verticalLayoutSalesGrowthRatebyWeek)
 
         # verticalLayoutFromWhichStore
         df_verticalLayoutFromWhichStore = self.databaseConnectEx.connector.queryDataset("""
@@ -356,7 +358,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             ORDER BY FIELD(s.sales_outlet_id, '3', '5', '8');
         """)
         if not df_verticalLayoutFromWhichStore.empty:
-            self.verticalLayoutFromWhichStore(df_verticalLayoutFromWhichStore)
+            self.chartverticalLayoutFromWhichStore(df_verticalLayoutFromWhichStore)
 
     def chartverticalLayoutTotalSalesbyDates(self, df):
         self.graphWidget.clear()
@@ -387,46 +389,186 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         plot_widget = pg.PlotWidget()
 
         # Configure the graph
-        plot_widget.setTitle("Sales Growth Rate by Part of the Days", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setTitle("Sales Growth Rate by Part of the Day", color="r", size="15pt", bold=True, italic=True)
         plot_widget.setBackground('w')
 
         labelStyle = {"color": "green", "font-size": "18px"}
         plot_widget.setLabel("left", "Total Line Item Amount", **labelStyle)
-        plot_widget.setLabel("bottom", "Date", **labelStyle)
+        plot_widget.setLabel("bottom", "Date ID", **labelStyle)
         plot_widget.showGrid(x=True, y=True)
 
-        # Convert transaction_date to datetime for sorting
-        df['transaction_date'] = pd.to_datetime(df['transaction_date'])
+        parts_of_day = df['part_of_day'].unique()
+        colors = ['b', 'g', 'r', 'c', 'm']  # Different colors for different parts of the day
 
-        # Sort the dataframe by date
-        df.sort_values('transaction_date', inplace=True)
+        # Add a legend to the plot
+        legend = plot_widget.addLegend()
 
-        # Define parts of the day in order
-        parts_of_day = ['Morning', 'Afternoon', 'Evening', 'Night', 'Late Night']
-
-        # Generate a color map for the parts of the day
-        color_map = {
-            'Morning': 'r',
-            'Afternoon': 'g',
-            'Evening': 'b',
-            'Night': 'c',
-            'Late Night': 'm'
-        }
-
-        # Plot each part of the day
-        for part in parts_of_day:
+        # Add plots for each part of the day
+        for i, part in enumerate(parts_of_day):
             part_df = df[df['part_of_day'] == part]
-            if not part_df.empty:
-                plot_widget.plot(part_df['transaction_date'].values, part_df['total_line_item_amount'].values,
-                                 pen=pg.mkPen(color=color_map[part], width=2), symbol='o', symbolBrush=color_map[part],
-                                 name=part)
+            plot = plot_widget.plot(part_df['Dates_ID'].values, part_df['total_line_item_amount'].values,
+                                    pen=pg.mkPen(color=colors[i % len(colors)], width=2), symbol='o', name=part)
 
-        # Add legend
-        plot_widget.addLegend()
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutSalesGrowthRateByPartOfTheDays.count())):
+            self.verticalLayoutSalesGrowthRateByPartOfTheDays.itemAt(i).widget().setParent(None)
 
-        # Add the plot widget to the layout
         self.verticalLayoutSalesGrowthRateByPartOfTheDays.addWidget(plot_widget)
 
+    def chartverticalLayoutDrinkHereOrGo(self, df):
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Sales: Drink Here or Go", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Total Amount", **labelStyle)
+        plot_widget.setLabel("bottom", "Sales Outlet ID", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract unique sales outlets and in-store flags
+        sales_outlets = df['sales_outlet_id'].unique()
+        instore_flags = df['instore_yn'].unique()
+
+        # Set bar width and positions
+        bar_width = 0.3
+        x = np.arange(len(sales_outlets))
+
+        # Dictionary to store bars for the legend
+        bars = {}
+
+        for i, instore in enumerate(instore_flags):
+            instore_df = df[df['instore_yn'] == instore]
+            bar_data = [
+                instore_df[instore_df['sales_outlet_id'] == outlet]['total_amount'].values[0] if outlet in instore_df[
+                    'sales_outlet_id'].values else 0 for outlet in sales_outlets]
+            bar = pg.BarGraphItem(x=x + i * bar_width, height=bar_data, width=bar_width,
+                                  brush=('b' if instore == 1 else 'r'))
+            plot_widget.addItem(bar)
+            bars["In-store" if instore == 1 else "Take-away"] = bar
+
+            # Add text items to show the total amount on top of each bar
+            for j, value in enumerate(bar_data):
+                text = pg.TextItem(text=f"{value}", anchor=(0.5, -0.5), color='k', border='w', fill=pg.mkBrush('w'))
+                text.setPos(x[j] + i * bar_width + bar_width / 2, value)
+                plot_widget.addItem(text)
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+        for name, bar in bars.items():
+            legend.addItem(bar, name)
+
+        # Set x-axis ticks to show sales outlet IDs
+        x_ticks = [(i, str(sales_outlet)) for i, sales_outlet in enumerate(sales_outlets)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutDrinkHereOrGo.count())):
+            self.verticalLayoutDrinkHereOrGo.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutDrinkHereOrGo.addWidget(plot_widget)
+
+    def chartverticalLayoutSalesGrowthRatebyWeek(self, df):
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Sales Growth Rate by Week", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Total Line Item Amount", **labelStyle)
+        plot_widget.setLabel("bottom", "Week", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        weeks = df['week']
+        total_line_item_amount = df['total_line_item_amount']
+        sales_growth_rate = df['sales_growth_rate']
+
+        # Create the bar chart for total_line_item_amount
+        bar_width = 0.4
+        bar_chart = pg.BarGraphItem(x=weeks, height=total_line_item_amount, width=bar_width, brush='b')
+
+        # Add the bar chart to the plot
+        plot_widget.addItem(bar_chart)
+
+        # Create the line chart for sales_growth_rate
+        line_chart = pg.PlotDataItem(weeks, total_line_item_amount * (1 + sales_growth_rate / 100),
+                                     pen=pg.mkPen(color='r', width=2), symbol='o')
+
+        # Add the line chart to the plot
+        plot_widget.addItem(line_chart)
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+        legend.addItem(bar_chart, 'Total Line Item Amount')
+        legend.addItem(line_chart, 'Sales Growth Rate')
+
+        # Set x-axis ticks to show integer weeks
+        plot_widget.getAxis('bottom').setTicks([[(int(week), str(int(week))) for week in weeks]])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutSalesGrowthRatebyWeek.count())):
+            self.verticalLayoutSalesGrowthRatebyWeek.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutSalesGrowthRatebyWeek.addWidget(plot_widget)
+
+    def chartverticalLayoutFromWhichStore(self, df):
+        # Ensure the data types are correct
+        df['sales_outlet_id'] = df['sales_outlet_id'].astype(str)
+        df['total_amount'] = df['total_amount'].astype(float)
+        df['total_quantity'] = df['total_quantity'].astype(float)
+
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Sales from Each Store", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Total", **labelStyle)
+        plot_widget.setLabel("bottom", "Sales Outlet ID", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        sales_outlets = df['sales_outlet_id']
+        total_amount = df['total_amount']
+        total_quantity = df['total_quantity']
+
+        # Set bar width and positions
+        bar_width = 0.3
+        x = np.arange(len(sales_outlets))
+
+        # Create the bar chart for total_amount
+        amount_bar = pg.BarGraphItem(x=x - bar_width / 2, height=total_amount, width=bar_width, brush='b',
+                                     name='Total Amount')
+
+        # Create the bar chart for total_quantity
+        quantity_bar = pg.BarGraphItem(x=x + bar_width / 2, height=total_quantity, width=bar_width, brush='g',
+                                       name='Total Quantity')
+
+        # Add the bar charts to the plot
+        plot_widget.addItem(amount_bar)
+        plot_widget.addItem(quantity_bar)
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+        legend.addItem(amount_bar, 'Total Amount')
+        legend.addItem(quantity_bar, 'Total Quantity')
+
+        # Set x-axis ticks to show sales outlet IDs
+        x_ticks = [(i, sales_outlet) for i, sales_outlet in enumerate(sales_outlets)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutFromWhichStore.count())):
+            self.verticalLayoutFromWhichStore.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutFromWhichStore.addWidget(plot_widget)
 
 
 
@@ -470,7 +612,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             GROUP BY c.gender;
         """)
         if not df_verticalLayoutPurchasebyGender.empty:
-            self.verticalLayoutPurchasebyGender(df_verticalLayoutPurchasebyGender)
+            self.chartverticalLayoutPurchasebyGender(df_verticalLayoutPurchasebyGender)
 
         # verticalLayoutPurchasebyAgeGroup
         df_verticalLayoutPurchasebyAgeGroup = self.databaseConnectEx.connector.queryDataset("""
@@ -488,7 +630,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             GROUP BY age_group;
         """)
         if not df_verticalLayoutPurchasebyAgeGroup.empty:
-            self.verticalLayoutPurchasebyAgeGroup(df_verticalLayoutPurchasebyAgeGroup)
+            self.chartverticalLayoutPurchasebyAgeGroup(df_verticalLayoutPurchasebyAgeGroup)
 
         # verticalLayoutPurchasebyGenderandbyProductCategory
         df_verticalLayoutPurchasebyGenderandbyProductCategory = self.databaseConnectEx.connector.queryDataset("""
@@ -499,7 +641,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             GROUP BY c.gender, p.product_category;
         """)
         if not df_verticalLayoutPurchasebyGenderandbyProductCategory.empty:
-            self.verticalLayoutPurchasebyGenderandbyProductCategory(
+            self.chartverticalLayoutPurchasebyGenderandbyProductCategory(
                 df_verticalLayoutPurchasebyGenderandbyProductCategory)
 
         # verticalLayoutRFM
@@ -517,7 +659,137 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         if not df_verticalLayoutRFM.empty:
             self.verticalLayoutRFM(df_verticalLayoutRFM)
 
+    def chartverticalLayoutPurchasebyGender(self, df):
+        # Ensure the data types are correct
+        df['gender'] = df['gender'].astype(str)
+        df['purchase_count'] = df['purchase_count'].astype(int)
 
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Purchases by Gender", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Purchase Count", **labelStyle)
+        plot_widget.setLabel("bottom", "Gender", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        genders = df['gender']
+        purchase_count = df['purchase_count']
+
+        # Set bar width and positions
+        bar_width = 0.5
+        x = np.arange(len(genders))
+
+        # Create the bar chart for purchase_count
+        bar_chart = pg.BarGraphItem(x=x, height=purchase_count, width=bar_width, brush='b')
+
+        # Add the bar chart to the plot
+        plot_widget.addItem(bar_chart)
+
+        # Set x-axis ticks to show gender
+        x_ticks = [(i, gender) for i, gender in enumerate(genders)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutPurchasebyGender.count())):
+            self.verticalLayoutPurchasebyGender.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutPurchasebyGender.addWidget(plot_widget)
+
+    def chartverticalLayoutPurchasebyAgeGroup(self, df):
+        # Ensure the data types are correct
+        df['age_group'] = df['age_group'].astype(str)
+        df['total_revenue'] = df['total_revenue'].astype(float)
+
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Purchases by Age Group", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        # Extract the data
+        age_groups = df['age_group']
+        total_revenue = df['total_revenue']
+
+        # Create the pie chart
+        pie_chart = pg.PieChartItem(
+            slices=[{'value': revenue, 'color': pg.intColor(i)} for i, revenue in enumerate(total_revenue)])
+
+        # Add the pie chart to the plot
+        plot_widget.addItem(pie_chart)
+
+        # Add labels to the pie chart
+        for i, (age_group, revenue) in enumerate(zip(age_groups, total_revenue)):
+            text = pg.TextItem(text=f"{age_group}: {revenue:.2f}", anchor=(0.5, -0.5), color='k', border='w',
+                               fill=pg.mkBrush('w'))
+            text.setPos(pie_chart.slices[i]['rect'].center())
+            plot_widget.addItem(text)
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutPurchasebyAgeGroup.count())):
+            self.verticalLayoutPurchasebyAgeGroup.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutPurchasebyAgeGroup.addWidget(plot_widget)
+
+    def chartverticalLayoutPurchasebyGenderandbyProductCategory(self, df):
+        # Ensure the data types are correct
+        df['gender'] = df['gender'].astype(str)
+        df['product_category'] = df['product_category'].astype(str)
+        df['purchase_count'] = df['purchase_count'].astype(int)
+
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Purchases by Gender and Product Category", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Purchase Count", **labelStyle)
+        plot_widget.setLabel("bottom", "Product Category", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        product_categories = df['product_category'].unique()
+        genders = df['gender'].unique()
+
+        # Set bar width and positions
+        bar_width = 0.3
+        x = np.arange(len(product_categories))
+
+        # Dictionary to store bars for the legend
+        bars = {}
+
+        for i, gender in enumerate(genders):
+            gender_df = df[df['gender'] == gender]
+            bar_data = [gender_df[gender_df['product_category'] == category]['purchase_count'].values[0] if category in
+                                                                                                            gender_df[
+                                                                                                                'product_category'].values else 0
+                        for category in product_categories]
+            bar = pg.BarGraphItem(x=x + i * bar_width, height=bar_data, width=bar_width, brush=pg.intColor(i),
+                                  name=gender)
+            plot_widget.addItem(bar)
+            bars[gender] = bar
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+        for name, bar in bars.items():
+            legend.addItem(bar, name)
+
+        # Set x-axis ticks to show product categories
+        x_ticks = [(i, category) for i, category in enumerate(product_categories)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutPurchasebyGenderandbyProductCategory.count())):
+            self.verticalLayoutPurchasebyGenderandbyProductCategory.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutPurchasebyGenderandbyProductCategory.addWidget(plot_widget)
 
 
 
