@@ -9,6 +9,11 @@ from enum import Enum
 import mysql.connector
 import csv
 from ConnectionsScreen.Connectors import Connector
+from Test.TabSaleEx import TabSaleEx
+
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
 
 class InsertBehavior(Enum):
     INSERT_FIRST = 0
@@ -22,6 +27,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.databaseConnectEx = DatabaseConnectEx(self)
         self.connector = Connector()
+        self.tabsale = TabSaleEx(self)
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
         self.MainWindow = MainWindow
@@ -41,22 +47,8 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         self.tabWidget.currentChanged.connect(self.onTabChanged)
 
     def onTabChanged(self, index):
-        if self.tabWidget.tabText(index) == "tabsales":
-            self.updateMRR()
-
-    def updateMRR(self):
-        query = "SELECT SUM(line_item_amount) AS total_sales FROM sales;"
-        try:
-            df = self.databaseConnectEx.connector.queryDataset(query)
-            if df is not None and not df.empty:
-                total_sales = df['total_sales'].iloc[0]
-                self.labelMRR.setText(f"{total_sales}")
-            else:
-                self.labelMRR.setText("0")
-        except mysql.connector.Error as err:
-            self.showErrorDialog("Query Error", f"Invalid query syntax or execution error:\n{str(err)}")
-        except Exception as e:
-            self.showErrorDialog("Query Error", str(e))
+        if self.tabWidget.tabText(index) == "Sale":
+            self.tabsale.updateSale()
 
     def openDatabaseConnectUI(self):
         dbwindow = QMainWindow()
@@ -89,7 +81,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         except mysql.connector.Error as err:
             self.showErrorDialog("Query Error", f"Invalid query syntax or execution error:\n{str(err)}")
         except Exception as e:
-            self.showErrorDialog("Query Error", str(e))  # Hiển thị lỗi nếu query thất bại
+            self.showErrorDialog("Query Error", str(e))
 
     def showErrorDialog(self, title, message):
         msg = QMessageBox()
@@ -194,6 +186,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         except Exception as e:
             self.showErrorDialog("Export Error", f"Failed to export data: {str(e)}")
 
+
     def show(self):
         self.MainWindow.show()
 
@@ -267,3 +260,5 @@ class TableModel(QAbstractTableModel):
         self.beginInsertRows(QModelIndex(), self.fetched_rows, self.fetched_rows + fetch_rows - 1)
         self.fetched_rows += fetch_rows
         self.endInsertRows()
+
+

@@ -94,6 +94,12 @@ class Ui_MainWindow(object):
         self.labelTitleMRR_2 = QtWidgets.QLabel(parent=self.tabSale)
         self.labelTitleMRR_2.setGeometry(QtCore.QRect(290, 10, 81, 41))
         self.labelTitleMRR_2.setObjectName("labelTitleMRR_2")
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(parent=self.tabSale)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(90, 120, 571, 291))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.verticalLayouttest = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayouttest.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayouttest.setObjectName("verticalLayouttest")
         self.tabWidget.addTab(self.tabSale, "")
         self.tabML = QtWidgets.QWidget()
         self.tabML.setObjectName("tabML")
@@ -362,7 +368,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSystems.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

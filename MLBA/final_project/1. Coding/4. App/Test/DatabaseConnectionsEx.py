@@ -39,6 +39,7 @@ class DatabaseConnectEx(QMainWindow, Ui_MainWindow):
                     self.parent_window.updateComboBox(tables)
                     self.parent_window.comboBoxChooseTable.setCurrentIndex(0)
                     self.showTableData(tables[0])
+
             else:
                 raise Exception("Failed to connect to the database")
 
