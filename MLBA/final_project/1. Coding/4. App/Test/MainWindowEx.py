@@ -10,6 +10,7 @@ import mysql.connector
 import csv
 from ConnectionsScreen.Connectors import Connector
 import pyqtgraph as pg
+import pandas as pd
 
 class TableModel(QAbstractTableModel):
     def __init__(self, data, columns):
@@ -312,7 +313,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             FIELD(t.part_of_day, 'Morning', 'Afternoon', 'Evening', 'Night', 'Late Night');
         """)
         if not df_verticalLayoutSalesGrowthRateByPartOfTheDays.empty:
-            self.verticalLayoutSalesGrowthRateByPartOfTheDays(df_verticalLayoutSalesGrowthRateByPartOfTheDays)
+            self.chartverticalLayoutSalesGrowthRateByPartOfTheDays(df_verticalLayoutSalesGrowthRateByPartOfTheDays)
 
         # verticalLayoutDrinkHereOrGo
         df_verticalLayoutDrinkHereOrGo = self.databaseConnectEx.connector.queryDataset("""
@@ -381,8 +382,50 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         # Add the graph widget to the layout
         self.verticalLayoutTotalSalesbyDates.addWidget(self.graphWidget)
 
+    def chartverticalLayoutSalesGrowthRateByPartOfTheDays(self, df):
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
 
+        # Configure the graph
+        plot_widget.setTitle("Sales Growth Rate by Part of the Days", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
 
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Total Line Item Amount", **labelStyle)
+        plot_widget.setLabel("bottom", "Date", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Convert transaction_date to datetime for sorting
+        df['transaction_date'] = pd.to_datetime(df['transaction_date'])
+
+        # Sort the dataframe by date
+        df.sort_values('transaction_date', inplace=True)
+
+        # Define parts of the day in order
+        parts_of_day = ['Morning', 'Afternoon', 'Evening', 'Night', 'Late Night']
+
+        # Generate a color map for the parts of the day
+        color_map = {
+            'Morning': 'r',
+            'Afternoon': 'g',
+            'Evening': 'b',
+            'Night': 'c',
+            'Late Night': 'm'
+        }
+
+        # Plot each part of the day
+        for part in parts_of_day:
+            part_df = df[df['part_of_day'] == part]
+            if not part_df.empty:
+                plot_widget.plot(part_df['transaction_date'].values, part_df['total_line_item_amount'].values,
+                                 pen=pg.mkPen(color=color_map[part], width=2), symbol='o', symbolBrush=color_map[part],
+                                 name=part)
+
+        # Add legend
+        plot_widget.addLegend()
+
+        # Add the plot widget to the layout
+        self.verticalLayoutSalesGrowthRateByPartOfTheDays.addWidget(plot_widget)
 
 
 
