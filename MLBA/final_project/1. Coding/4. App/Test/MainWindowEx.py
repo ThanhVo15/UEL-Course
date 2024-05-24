@@ -10,8 +10,25 @@ import mysql.connector
 import csv
 from ConnectionsScreen.Connectors import Connector
 import pyqtgraph as pg
+import pyqtgraph.opengl as gl
 import pandas as pd
 import numpy as np
+from PyQt5.QtWidgets import QVBoxLayout, QWidget
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+
+
+class MplCanvas(FigureCanvas):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = self.fig.add_subplot(111)
+        super().__init__(self.fig)
+
+    def clear(self):
+        self.axes.clear()
 
 class TableModel(QAbstractTableModel):
     def __init__(self, data, columns):
@@ -573,6 +590,8 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
 
 
 
+
+
     ## Tab Customer
     def updateCustomer(self):
         # Truy vấn labelNewCustomer
@@ -657,7 +676,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             FROM rfm;
         """)
         if not df_verticalLayoutRFM.empty:
-            self.verticalLayoutRFM(df_verticalLayoutRFM)
+            self.chartverticalLayoutRFM(df_verticalLayoutRFM)
 
     def chartverticalLayoutPurchasebyGender(self, df):
         # Ensure the data types are correct
@@ -712,23 +731,28 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
         plot_widget.setTitle("Purchases by Age Group", color="r", size="15pt", bold=True, italic=True)
         plot_widget.setBackground('w')
 
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Total Revenue", **labelStyle)
+        plot_widget.setLabel("bottom", "Age Group", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
         # Extract the data
         age_groups = df['age_group']
         total_revenue = df['total_revenue']
 
-        # Create the pie chart
-        pie_chart = pg.PieChartItem(
-            slices=[{'value': revenue, 'color': pg.intColor(i)} for i, revenue in enumerate(total_revenue)])
+        # Set bar width and positions
+        bar_width = 0.5
+        x = np.arange(len(age_groups))
 
-        # Add the pie chart to the plot
-        plot_widget.addItem(pie_chart)
+        # Create the bar chart for total_revenue
+        bar_chart = pg.BarGraphItem(x=x, height=total_revenue, width=bar_width, brush='b')
 
-        # Add labels to the pie chart
-        for i, (age_group, revenue) in enumerate(zip(age_groups, total_revenue)):
-            text = pg.TextItem(text=f"{age_group}: {revenue:.2f}", anchor=(0.5, -0.5), color='k', border='w',
-                               fill=pg.mkBrush('w'))
-            text.setPos(pie_chart.slices[i]['rect'].center())
-            plot_widget.addItem(text)
+        # Add the bar chart to the plot
+        plot_widget.addItem(bar_chart)
+
+        # Set x-axis ticks to show age groups
+        x_ticks = [(i, age_group) for i, age_group in enumerate(age_groups)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
 
         # Clear the previous plot and add the new plot widget to the layout
         for i in reversed(range(self.verticalLayoutPurchasebyAgeGroup.count())):
@@ -791,6 +815,58 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
 
         self.verticalLayoutPurchasebyGenderandbyProductCategory.addWidget(plot_widget)
 
+    def chartverticalLayoutRFM(self, df):
+        # Ensure the data types are correct
+        df['recency'] = df['recency'].astype(float)
+        df['frequency'] = df['frequency'].astype(float)
+        df['monetary_value'] = df['monetary_value'].astype(float)
+
+        # Standardize the data
+        scaler = StandardScaler()
+        rfm_scaled = scaler.fit_transform(df[['recency', 'frequency', 'monetary_value']])
+
+        # Elbow method to find the optimal number of clusters
+        sse = []
+        k_range = range(1, 11)
+        for k in k_range:
+            kmeans = KMeans(n_clusters=k, random_state=42)
+            kmeans.fit(rfm_scaled)
+            sse.append(kmeans.inertia_)
+
+        # Determine the optimal number of clusters using the elbow method
+        optimal_k = 3  # You can choose the optimal number of clusters based on the elbow curve
+        kmeans = KMeans(n_clusters=optimal_k, random_state=42)
+        df['Cluster'] = kmeans.fit_predict(rfm_scaled)
+
+        # Create a new GLViewWidget for 3D plotting
+        view = gl.GLViewWidget()
+        view.opts['distance'] = 40
+        view.setWindowTitle('3D RFM Clustering')
+        view.setGeometry(0, 110, 1280, 720)
+
+        # Add grid to the view
+        grid = gl.GLGridItem()
+        view.addItem(grid)
+
+        # Prepare data for 3D scatter plot
+        colors = np.array([pg.glColor(c) for c in df['Cluster']])
+        scatter_data = np.array([df['recency'], df['frequency'], df['monetary_value']]).T
+
+        # Create a scatter plot item
+        scatter_plot = gl.GLScatterPlotItem(pos=scatter_data, size=5, color=colors, pxMode=True)
+        view.addItem(scatter_plot)
+
+        # Add axis labels
+        axis = gl.GLAxisItem()
+        axis.setSize(x=10, y=10, z=10)
+        view.addItem(axis)
+
+        # Clear the previous plot and add the new 3D view widget to the layout
+        for i in reversed(range(self.verticalLayoutRFM.count())):
+            self.verticalLayoutRFM.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutRFM.addWidget(view)
+        view.show()
 
 
 
@@ -829,7 +905,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             ORDER BY d.Month_ID;
         """)
         if not df_verticalLayoutQuantitySold.empty:
-            self.verticalLayoutQuantitySold(df_verticalLayoutQuantitySold)
+            self.chartverticalLayoutQuantitySold(df_verticalLayoutQuantitySold)
 
         # verticalLayoutPercentWaste
         df_verticalLayoutPercentWaste = self.databaseConnectEx.connector.queryDataset("""
@@ -840,7 +916,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             ORDER BY d.Month_ID;
         """)
         if not df_verticalLayoutPercentWaste.empty:
-            self.verticalLayoutPercentWaste(df_verticalLayoutPercentWaste)
+            self.chartverticalLayoutPercentWaste(df_verticalLayoutPercentWaste)
 
         # verticalLayoutTotalInventorySoldByDay
         df_verticalLayoutTotalInventorySoldByDay = self.databaseConnectEx.connector.queryDataset("""
@@ -851,7 +927,7 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             ORDER BY d.Dates_ID;
         """)
         if not df_verticalLayoutTotalInventorySoldByDay.empty:
-            self.verticalLayoutTotalInventorySoldByDay(df_verticalLayoutTotalInventorySoldByDay)
+            self.chartverticalLayoutTotalInventorySoldByDay(df_verticalLayoutTotalInventorySoldByDay)
 
         # verticalLayoutSaleTarget
         df_verticalLayoutSaleTarget = self.databaseConnectEx.connector.queryDataset("""
@@ -863,7 +939,230 @@ class MainWindowEx(QMainWindow, Ui_MainWindow):
             GROUP BY pi.sales_outlet_id, st.total_goal;
         """)
         if not df_verticalLayoutSaleTarget.empty:
-            self.verticalLayoutSaleTarget(df_verticalLayoutSaleTarget)
+            self.chartverticalLayoutSaleTarget(df_verticalLayoutSaleTarget)
+
+    def chartverticalLayoutQuantitySold(self, df):
+        # Ensure the data types are correct
+        df['product_id'] = df['product_id'].astype(str)
+        df['sales_outlet_id'] = df['sales_outlet_id'].astype(str)
+        df['Total_quantity_sold'] = df['Total_quantity_sold'].astype(int)
+
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Total Quantity Sold by Product ID", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Total Quantity Sold", **labelStyle)
+        plot_widget.setLabel("bottom", "Product ID", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        products = df['product_id'].unique()
+        outlets = df['sales_outlet_id'].unique()
+
+        # Prepare the bar chart data
+        bar_width = 0.5
+        x = np.arange(len(products))
+
+        # Initialize an array to hold the cumulative height of the bars
+        cumulative_height = np.zeros(len(products))
+
+        # Define a color palette
+        color_palette = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+
+        # Create the stacked bars
+        bar_charts = []
+        for i, outlet in enumerate(outlets):
+            outlet_data = df[df['sales_outlet_id'] == outlet]
+            total_quantity_sold = np.array(
+                [outlet_data[outlet_data['product_id'] == product]['Total_quantity_sold'].sum() for product in
+                 products])
+            bar_chart = pg.BarGraphItem(x=x, height=total_quantity_sold, width=bar_width,
+                                        brush=color_palette[i % len(color_palette)])
+            plot_widget.addItem(bar_chart)
+            cumulative_height += total_quantity_sold
+            bar_charts.append((bar_chart, f'Sales Outlet {outlet}'))
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+        for bar_chart, outlet_label in bar_charts:
+            legend.addItem(bar_chart, outlet_label)
+
+        # Set x-axis ticks to show product IDs
+        x_ticks = [(i, str(product)) for i, product in enumerate(products)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutQuantitySold.count())):
+            self.verticalLayoutQuantitySold.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutQuantitySold.addWidget(plot_widget)
+
+    def chartverticalLayoutPercentWaste(self, df):
+        # Ensure the data types are correct
+        df['product_id'] = df['product_id'].astype(str)
+        df['sales_outlet_id'] = df['sales_outlet_id'].astype(str)
+        df['Total_Percen_Waste'] = df['Total_Percen_Waste'].astype(float)
+
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Percent Waste by Product ID", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Percent Waste", **labelStyle)
+        plot_widget.setLabel("bottom", "Product ID", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        products = df['product_id'].unique()
+        outlets = df['sales_outlet_id'].unique()
+
+        # Prepare the bar chart data
+        bar_width = 0.5
+        x = np.arange(len(products))
+
+        # Initialize an array to hold the cumulative height of the bars
+        cumulative_height = np.zeros(len(products))
+
+        # Define a color palette
+        color_palette = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+
+        # Create the stacked bars
+        bar_charts = []
+        for i, outlet in enumerate(outlets):
+            outlet_data = df[df['sales_outlet_id'] == outlet]
+            total_percent_waste = np.array(
+                [outlet_data[outlet_data['product_id'] == product]['Total_Percen_Waste'].mean() for product in
+                 products])
+            bar_chart = pg.BarGraphItem(x=x, height=total_percent_waste, width=bar_width,
+                                        brush=color_palette[i % len(color_palette)])
+            plot_widget.addItem(bar_chart)
+            cumulative_height += total_percent_waste
+            bar_charts.append((bar_chart, f'Sales Outlet {outlet}'))
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+        for bar_chart, outlet_label in bar_charts:
+            legend.addItem(bar_chart, outlet_label)
+
+        # Set x-axis ticks to show product IDs
+        x_ticks = [(i, str(product)) for i, product in enumerate(products)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutPercentWaste.count())):
+            self.verticalLayoutPercentWaste.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutPercentWaste.addWidget(plot_widget)
+
+    def chartverticalLayoutTotalInventorySoldByDay(self, df):
+        # Ensure the data types are correct
+        df['Dates_ID'] = df['Dates_ID'].astype(int)
+        df['sales_outlet_id'] = df['sales_outlet_id'].astype(str)
+        df['total_quantity_sold'] = df['total_quantity_sold'].astype(int)
+
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Total Inventory Sold by Day", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Total Quantity Sold", **labelStyle)
+        plot_widget.setLabel("bottom", "Dates ID", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        dates = df['Dates_ID'].unique()
+        outlets = df['sales_outlet_id'].unique()
+
+        # Define a color palette
+        color_palette = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+
+        # Create the line plots for each sales outlet
+        for i, outlet in enumerate(outlets):
+            outlet_data = df[df['sales_outlet_id'] == outlet]
+            sorted_data = outlet_data.sort_values(by='Dates_ID')
+            dates_sorted = sorted_data['Dates_ID'].values
+            total_quantity_sold_sorted = sorted_data['total_quantity_sold'].values
+
+            line = plot_widget.plot(dates_sorted, total_quantity_sold_sorted,
+                                    pen=pg.mkPen(color_palette[i % len(color_palette)], width=2),
+                                    name=f'Sales Outlet {outlet}')
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+
+        # Set x-axis ticks to show dates
+        x_ticks = [(i, str(date)) for i, date in enumerate(dates)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutTotalInventorySoldByDay.count())):
+            self.verticalLayoutTotalInventorySoldByDay.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutTotalInventorySoldByDay.addWidget(plot_widget)
+
+    def chartverticalLayoutSaleTarget(self, df):
+        # Ensure the data types are correct
+        df['sales_outlet_id'] = df['sales_outlet_id'].astype(str)
+        df['total_goal'] = df['total_goal'].astype(float)
+        df['total_quantity_sold'] = df['total_quantity_sold'].astype(float)
+        df['percent'] = df['percent'].astype(float)
+
+        # Create a new PlotWidget
+        plot_widget = pg.PlotWidget()
+
+        # Configure the graph
+        plot_widget.setTitle("Sales Target", color="r", size="15pt", bold=True, italic=True)
+        plot_widget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        plot_widget.setLabel("left", "Value", **labelStyle)
+        plot_widget.setLabel("bottom", "Sales Outlet ID", **labelStyle)
+        plot_widget.showGrid(x=True, y=True)
+
+        # Extract the data
+        outlets = df['sales_outlet_id'].unique()
+        total_goals = df['total_goal']
+        total_quantity_sold = df['total_quantity_sold']
+        percent = df['percent']
+
+        # Set bar width and positions
+        bar_width = 0.3
+        x = np.arange(len(outlets))
+
+        # Create the bar charts
+        goal_bar = pg.BarGraphItem(x=x - bar_width / 2, height=total_goals, width=bar_width, brush='b',
+                                   name='Total Goal')
+        sold_bar = pg.BarGraphItem(x=x + bar_width / 2, height=total_quantity_sold, width=bar_width, brush='g',
+                                   name='Total Quantity Sold')
+
+        # Add the bar charts to the plot
+        plot_widget.addItem(goal_bar)
+        plot_widget.addItem(sold_bar)
+
+        # Add a legend
+        legend = plot_widget.addLegend()
+        legend.addItem(goal_bar, 'Total Goal')
+        legend.addItem(sold_bar, 'Total Quantity Sold')
+
+        # Set x-axis ticks to show sales outlet IDs
+        x_ticks = [(i, outlet) for i, outlet in enumerate(outlets)]
+        plot_widget.getAxis('bottom').setTicks([x_ticks])
+
+        # Clear the previous plot and add the new plot widget to the layout
+        for i in reversed(range(self.verticalLayoutSaleTarget.count())):
+            self.verticalLayoutSaleTarget.itemAt(i).widget().setParent(None)
+
+        self.verticalLayoutSaleTarget.addWidget(plot_widget)
 
     def show(self):
         self.MainWindow.show()

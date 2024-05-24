@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42173ccf-3854-424f-847a-4dc1d9b2212e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/save.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindowEx.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/MainWindowEx.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/TabSaleEx.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Test/TabSaleEx.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Utils/App.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../final_project/1. Coding/4. App/Utils/App.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
