@@ -1,46 +1,38 @@
-# TabSaleEx.py
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel
-from PyQt6.QtCore import Qt
 import pyqtgraph as pg
-import pandas as pd
-from Test.MainWindow import Ui_MainWindow
+from PyQt6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
-class TabSaleEx(QWidget, Ui_MainWindow):
-    def __init__(self, parent=None):
-        super(TabSaleEx, self).__init__(parent)
+class TabSaleEx(QWidget):
+    def __init__(self, database_connect_ex, parent_layout):
+        super().__init__()
+        self.database_connect_ex = database_connect_ex
+        self.graphWidget = pg.PlotWidget()
+        self.labelMRR = QLabel("MRR")
+        self.labelMRR_2 = QLabel("Number of Sales")
+        self.setupUI(parent_layout)
 
-    def setupUi(self, MainWindow):
-        super().setupUi(MainWindow)
-        self.parent = MainWindow
-        # Sử dụng các thành phần giao diện từ MainWindow
-        self.layout = self.parent.verticalLayouttest
-
-        # Đảm bảo là layout không rỗng trước khi thêm
-        if self.layout:
-            self.labelMRR = self.parent.labelMRR
-            self.labelNumberOfSales = self.parent.labelMRR_2
-            self.plotWidget = self.parent.plotWidget
-        # Pyqtgraph PlotWidget
-        self.plotWidget = pg.PlotWidget()
-        self.layout.addWidget(self.plotWidget)
-
-        # self.setLayout(self.layout)
+    def setupUI(self, layout):
+        layout.addWidget(self.labelMRR)
+        layout.addWidget(self.labelMRR_2)
+        layout.addWidget(self.graphWidget)
 
     def updateSale(self):
-        # Truy vấn MRR
-        df_mrr = self.parent.databaseConnectEx.connector.queryDataset(
+        print("Updating sale information...")
+        # Query MRR
+        df_mrr = self.database_connect_ex.connector.queryDataset(
             "SELECT SUM(line_item_amount) AS total_sales FROM sales;")
         if not df_mrr.empty:
-            self.labelMRR.setText(f"Monthly Recurring Revenue: {df_mrr.iloc[0]['total_sales']}")
+            self.labelMRR.setText(f"Total Sales (MRR): {df_mrr.iloc[0]['total_sales']}")
+            print(f"Total Sales (MRR): {df_mrr.iloc[0]['total_sales']}")
 
-        # Truy vấn số lượng bán hàng
-        df_number_of_sales = self.parent.databaseConnectEx.connector.queryDataset(
+        # Query number of sales
+        df_number_of_sales = self.database_connect_ex.connector.queryDataset(
             "SELECT COUNT(order_id) AS number_of_sales FROM sales;")
         if not df_number_of_sales.empty:
-            self.labelMRR_2.setText(f"Total Number of Sales: {df_number_of_sales.iloc[0]['number_of_sales']}")
+            self.labelMRR_2.setText(f"Number of Sales: {df_number_of_sales.iloc[0]['number_of_sales']}")
+            print(f"Number of Sales: {df_number_of_sales.iloc[0]['number_of_sales']}")
 
-        # Truy vấn dữ liệu và vẽ biểu đồ
-        df_sales_by_date = self.parent.databaseConnectEx.connector.queryDataset("""
+        # Query data and plot the chart
+        df_sales_by_date = self.database_connect_ex.connector.queryDataset("""
             SELECT d.Dates_ID, SUM(s.line_item_amount) AS total_line_item_amount
             FROM sales s
             JOIN dates d ON s.transaction_date = d.transaction_date
@@ -48,12 +40,25 @@ class TabSaleEx(QWidget, Ui_MainWindow):
             ORDER BY d.Dates_ID;
         """)
         if not df_sales_by_date.empty:
+            print(f"Sales by Date Data: {df_sales_by_date}")
             self.plotLineChart(df_sales_by_date)
+        else:
+            print("No data fetched for sales by date.")
 
     def plotLineChart(self, df):
-        self.plotWidget.clear()
-        self.plotWidget.plot(df['Dates_ID'], df['total_line_item_amount'], pen=pg.mkPen(color='b', width=2), symbol='o')
-        self.plotWidget.setTitle("Total Sales by Date")
-        self.plotWidget.setLabel('left', 'Total Line Item Amount')
-        self.plotWidget.setLabel('bottom', 'Date ID')
-        self.plotWidget.showGrid(x=True, y=True)
+        print("Plotting line chart...")
+        self.graphWidget.clear()  # Clear the plot to avoid duplicates
+
+        # Configure the graph
+        self.graphWidget.setTitle("Total Sales by Date", color="r", size="15pt", bold=True, italic=True)
+        self.graphWidget.setBackground('w')
+
+        labelStyle = {"color": "green", "font-size": "18px"}
+        self.graphWidget.setLabel("left", "Total Line Item Amount", **labelStyle)
+        self.graphWidget.setLabel("bottom", "Date ID", **labelStyle)
+        self.graphWidget.showGrid(x=True, y=True)
+
+        # Plot the line graph
+        print(f"Dates_ID: {df['Dates_ID'].tolist()}, Total_Line_Item_Amount: {df['total_line_item_amount'].tolist()}")
+        self.linegraph = self.graphWidget.plot(df['Dates_ID'].tolist(), df['total_line_item_amount'].tolist(), pen=pg.mkPen(color='b', width=2), symbol='o')
+        print("Line chart plotted.")
